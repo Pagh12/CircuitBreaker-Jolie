@@ -1,8 +1,4 @@
 {
-    "target": {
-      "location":"socket://localhost:8080"
-    },
-    "circuit": {
-      "location":"socket://localhost:8081"
-    }
-  }
+  "target":  { "location": "socket://target:8080" },
+  "circuit": { "location": "socket://circuit:8081" }
+}

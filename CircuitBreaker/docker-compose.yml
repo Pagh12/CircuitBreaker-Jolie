@@ -1,0 +1,29 @@
+services:
+  target:
+    image: jolielang/jolie:latest
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: ["jolie", "target.ol"]
+    ports:
+      - "8080:8080"   # matches config.json target location
+
+  circuit:
+    image: jolielang/jolie:latest
+    working_dir: /app
+    depends_on:
+      - target
+    volumes:
+      - ./:/app
+    command: ["jolie", "circuitBreaker.ol"]
+    ports:
+      - "8081:8081"   # matches config.json circuit location
+
+  client:
+    image: jolielang/jolie:latest
+    working_dir: /app
+    depends_on:
+      - circuit
+    volumes:
+      - ./:/app
+    command: ["jolie", "client.ol"]
