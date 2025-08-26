@@ -6,25 +6,28 @@ It prevents cascading failures by temporarily cutting off calls to an unresponsi
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 - `circuitBreaker.ol` – The Circuit Breaker service that manages requests to the target.  
 - `client.ol` – A client that sends requests through the Circuit Breaker.  
-- `target.ol` – The target service (simulates a working or failing endpoint).  
+- `target.ol` – The target service (simulates a working or failing endpoint by dividing by zero).  
 - `config.json` – Configuration file specifying service locations.  
 
-Example config:
-```json
-{
-  "target": {
-    "location":"socket://localhost:8080"
-  },
-  "circuit": {
-    "location":"socket://localhost:8081"
-  }
-}
+---
 
+## ▶️ How it Works
 
-Run the docker container - Inside circuit breaker folder -
-  docker compose up
+- At first, the **target service** throws an `ArithmeticException` (`/ by zero`).  
+- The **client** receives these raw errors until the **Circuit Breaker** failure counter reaches **6**.  
+- Once the threshold is reached, the Circuit Breaker **opens** and stops forwarding requests.  
+- From then on, the **client** receives `CircuitOpenError` instead of the original `ArithmeticException`.  
 
-  
+This shows how the Circuit Breaker prevents repeated failures from overwhelming a failing service.
+
+---
+
+## ▶️ How to Run with Docker
+
+1. Make sure you have **Docker Desktop** running (Linux containers mode).
+2. From the project folder, start everything with:
+   ```bash
+   docker compose up
