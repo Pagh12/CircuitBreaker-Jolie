@@ -24,7 +24,7 @@ Example config:
 }
 
 
-## How to run - inside the folder run##
-  1. paste 'jolie target.ol' into terminal
-  2. paste 'jolie circuitBreaker.ol' into terminal
-  3. paste 'jolie client.ol' into terminal
+Run the docker container - Inside circuit breaker folder -
+  docker compose up
+
+  
